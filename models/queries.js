@@ -1,4 +1,5 @@
 const pool = require("./database");
+const { v4: uuidv4 } = require("uuid");
 
 const selectStatement = () => {};
 
@@ -17,9 +18,10 @@ const insertNewUser = async (
     hashedPassword,
     birthDate
 ) => {
+    const id = uuidv4();
     await pool.query(
-        "INSERT INTO user_profile (first_name, last_name, username, email, password_h, birth_date) VALUES ($1, $2, $3, $4, $5, $6)",
-        [firstName, lastName, username, email, hashedPassword, birthDate]
+        "INSERT INTO user_profile (id, first_name, last_name, username, email, password_h, birth_date) VALUES ($1, $2, $3, $4, $5, $6)",
+        [id, firstName, lastName, username, email, hashedPassword, birthDate]
     );
 };
 
