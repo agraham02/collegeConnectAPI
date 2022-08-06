@@ -488,7 +488,7 @@ const getFollowerCnt = async (userId) => {
             [userId]
         )
     ).rows[0];
-    return results.follower_cnt;
+    return parseInt(results.follower_cnt);
 };
 
 const getFollowingCnt = async (userId) => {
@@ -498,7 +498,7 @@ const getFollowingCnt = async (userId) => {
             [userId]
         )
     ).rows[0];
-    return results.following_cnt;
+    return parseInt(results.following_cnt);
 };
 
 module.exports = {
