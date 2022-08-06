@@ -20,7 +20,7 @@ const insertNewUser = async (
 ) => {
     const id = uuidv4();
     await pool.query(
-        "INSERT INTO user_profile (id, first_name, last_name, username, email, password_h, birth_date) VALUES ($1, $2, $3, $4, $5, $6)",
+        "INSERT INTO user_profile (id, first_name, last_name, username, email, password_h, birth_date) VALUES ($1, $2, $3, $4, $5, $6, $7)",
         [id, firstName, lastName, username, email, hashedPassword, birthDate]
     );
 };
