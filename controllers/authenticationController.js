@@ -31,7 +31,7 @@ const logIn = async (req, res, next) => {
         return res.status(401).json("User not found");
     }
 
-    const rightPassword = await comparePasswords(password, dbUser.password);
+    const rightPassword = await comparePasswords(password, dbUser.password_h);
     if (rightPassword) {
         const accessToken = issueJWT(dbUser);
         res.json({ dbUser, accessToken });
@@ -41,7 +41,7 @@ const logIn = async (req, res, next) => {
 };
 
 const register = async (req, res, next) => {
-    console.log("Hello");
+    // console.log("Hello");
     const { firstName, lastName, username, email, password } = req.body; //birthdate
     const birthDate = new Date("May 11, 2002");
     try {
@@ -64,7 +64,7 @@ const register = async (req, res, next) => {
     } catch (error) {
         res.status(500);
         const e = new Error(`Something happened with our servers.`);
-        next(e);
+        next(error);
     }
 };
 

@@ -36,11 +36,13 @@ const getProfileDataById = async (req, res, next) => {
     console.log(results);
     // results.isFollowing = await getFollowStatus();
     if (user.id !== userId) {
-        results.isFollower = await getIsFollower(user.id, userId);
-        results.amFollowing = await getAmFollowing(user.id, userId);
+        results.is_follower = await getIsFollower(user.id, userId);
+        results.am_following = await getAmFollowing(user.id, userId);
     } else {
-        results.isMyProfile = true;
+        results.is_my_profile = true;
     }
+    results.follower_cnt = await queries.users.getFollowerCnt(userId);
+    results.following_cnt = await queries.users.getFollowingCnt(userId);
     res.json(results);
     // if (results) {
     //     const filteredResults = {
@@ -93,6 +95,18 @@ const getFollowers = async (req, res, next) => {
 const getFollowings = async (req, res, next) => {
     const user = await req.user;
     const results = await queries.users.getFollowings(user.id);
+    res.json(results);
+};
+
+const getFollowerCnt = async (req, res, next) => {
+    const user = await req.user;
+    const results = await queries.users.getFollowerCnt(user.id);
+    res.json(results);
+}
+
+const getFollowingCnt = async (req, res, next) => {
+    const user = await req.user;
+    const results = await queries.users.getFollowingCnt(user.id);
     res.json(results);
 };
 
@@ -198,6 +212,8 @@ module.exports = {
     unfollowUser,
     getFollowers,
     getFollowings,
+    getFollowerCnt, 
+    getFollowingCnt,
     updateBio,
     updateName,
     updateUsername,

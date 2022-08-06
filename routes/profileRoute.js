@@ -32,6 +32,10 @@ profileRouter.get("/followers", userProfileController.getFollowers);
 
 profileRouter.get("/followings", userProfileController.getFollowings);
 
+profileRouter.get("/followerCnt", userProfileController.getFollowerCnt);
+
+profileRouter.get("/followingCnt", userProfileController.getFollowingCnt);
+
 // profileRouter.get("/:username", userProfileController.getProfileByUsername);
 
 profileRouter.patch("/bio", userProfileController.updateBio);

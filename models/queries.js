@@ -18,7 +18,7 @@ const insertNewUser = async (
     birthDate
 ) => {
     await pool.query(
-        "INSERT INTO user_profile (first_name, last_name, username, email, password, birth_date) VALUES ($1, $2, $3, $4, $5, $6)",
+        "INSERT INTO user_profile (first_name, last_name, username, email, password_h, birth_date) VALUES ($1, $2, $3, $4, $5, $6)",
         [firstName, lastName, username, email, hashedPassword, birthDate]
     );
 };
@@ -462,9 +462,10 @@ const unfollowUser = async (userId, userFollowingId) => {
 
 const getFollowers = async (userId) => {
     const results = await (
-        await pool.query("SELECT * FROM user_following WHERE user_following_id = $1", [
-            userId,
-        ])
+        await pool.query(
+            "SELECT * FROM user_following WHERE user_following_id = $1",
+            [userId]
+        )
     ).rows;
     return results;
 };
@@ -476,6 +477,26 @@ const getFollowings = async (userId) => {
         ])
     ).rows;
     return results;
+};
+
+const getFollowerCnt = async (userId) => {
+    const results = await (
+        await pool.query(
+            "SELECT COUNT(id) AS follower_cnt FROM user_following WHERE user_following_id = $1",
+            [userId]
+        )
+    ).rows[0];
+    return results.follower_cnt;
+};
+
+const getFollowingCnt = async (userId) => {
+    const results = await (
+        await pool.query(
+            "SELECT COUNT(id) AS following_cnt FROM user_following WHERE user_id = $1",
+            [userId]
+        )
+    ).rows[0];
+    return results.following_cnt;
 };
 
 module.exports = {
@@ -493,7 +514,9 @@ module.exports = {
         followUser,
         unfollowUser,
         getFollowers,
-        getFollowings
+        getFollowings,
+        getFollowerCnt,
+        getFollowingCnt,
     },
     posts: {
         getPosts,
