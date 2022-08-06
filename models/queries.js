@@ -484,7 +484,7 @@ const getFollowings = async (userId) => {
 const getFollowerCnt = async (userId) => {
     const results = await (
         await pool.query(
-            "SELECT COUNT(id) AS follower_cnt FROM user_following WHERE user_following_id = $1",
+            "SELECT COUNT(user_id) AS follower_cnt FROM user_following WHERE user_following_id = $1",
             [userId]
         )
     ).rows[0];
@@ -494,7 +494,7 @@ const getFollowerCnt = async (userId) => {
 const getFollowingCnt = async (userId) => {
     const results = await (
         await pool.query(
-            "SELECT COUNT(id) AS following_cnt FROM user_following WHERE user_id = $1",
+            "SELECT COUNT(user_id) AS following_cnt FROM user_following WHERE user_id = $1",
             [userId]
         )
     ).rows[0];

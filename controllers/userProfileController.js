@@ -34,7 +34,6 @@ const getProfileDataById = async (req, res, next) => {
     const { userId } = req.params;
     const results = await queries.users.getUserById(userId);
     console.log(results);
-    // results.isFollowing = await getFollowStatus();
     if (user.id !== userId) {
         results.is_follower = await getIsFollower(user.id, userId);
         results.am_following = await getAmFollowing(user.id, userId);
