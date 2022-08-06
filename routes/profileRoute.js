@@ -9,7 +9,7 @@ profileRouter.use(passport.authenticate("jwt", { session: false }));
 
 profileRouter.get("/", async (req, res) => {
     const user = await req.user;
-    res.json(user);
+    res.json(user)
 });
 
 profileRouter.get(
