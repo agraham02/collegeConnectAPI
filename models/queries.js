@@ -105,9 +105,11 @@ const insertNewPost = async (
     isAnonymous,
     expiresIn
 ) => {
+    const id = uuidv4();
     await pool.query(
-        "INSERT INTO user_post (user_id, written_text, tag_1, tag_2, tag_3, is_pinned, is_advertised, is_sensative, is_anonymous, expires_in) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+        "INSERT INTO user_post (id, user_id, written_text, tag_1, tag_2, tag_3, is_pinned, is_advertised, is_sensative, is_anonymous, expires_in) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)",
         [
+            id,
             userId,
             text,
             tag1,
