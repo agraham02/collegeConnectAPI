@@ -10,8 +10,8 @@ async function paginateResults(req, res, next) {
 
     try {
         console.log("hey");
-        const page = parseInt(req.query.page);
-        const limit = parseInt(req.query.limit);
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
         const startIndex = (page - 1) * limit;
         const endIndex = page * limit;
         const user = await req.user;

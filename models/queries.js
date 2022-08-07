@@ -129,17 +129,6 @@ const getPosts = async (userId, limit, startIndex) => {
             [limit, startIndex]
         )
     ).rows;
-
-    // for (const result of results) {
-    //     console.log(result);
-    //     const postId = result.id;
-    //     const likeCnt = await getPostsLikesCnt(postId);
-    //     const commentCnt = await getPostsCommentCnt(postId);
-    //     const isLiked = await postIsLiked(postId, userId);
-    //     result.like_cnt = likeCnt;
-    //     result.comment_cnt = commentCnt;
-    //     result.is_liked = isLiked;
-    // }
     await setPostData(results, userId);
     // console.log(results);
     return results;
