@@ -154,21 +154,21 @@ const setPostData = async (posts, userId) => {
 const getPostsLikesCnt = async (postId) => {
     const results = await (
         await pool.query(
-            "SELECT COUNT(post_like.id) AS like_cnt FROM post_like WHERE post_id = $1",
+            "SELECT COUNT(post_like.user_id) AS like_cnt FROM post_like WHERE post_id = $1",
             [postId]
         )
     ).rows[0];
-    return results.like_cnt;
+    return parseInt(results.like_cnt);
 };
 
 const getPostsCommentCnt = async (postId) => {
     const results = await (
         await pool.query(
-            "SELECT COUNT(text_comment.id) AS comment_cnt FROM text_comment WHERE post_id = $1",
+            "SELECT COUNT(user_comment.user_id) AS comment_cnt FROM user_comment_comment WHERE post_id = $1",
             [postId]
         )
     ).rows[0];
-    return results.comment_cnt;
+    return parseInt(results.comment_cnt);
 };
 
 const getPostIsLiked = async (postId, userId) => {
