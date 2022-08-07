@@ -106,7 +106,7 @@ const insertNewPost = async (
     expiresIn
 ) => {
     await pool.query(
-        "INSERT INTO text_post (user_id, written_text, tag_1, tag_2, tag_3, is_pinned, is_advertised, is_sensative, is_anonymous, expires_in) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+        "INSERT INTO user_post (user_id, written_text, tag_1, tag_2, tag_3, is_pinned, is_advertised, is_sensative, is_anonymous, expires_in) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
         [
             userId,
             text,
@@ -125,7 +125,7 @@ const insertNewPost = async (
 const getPosts = async (userId, limit, startIndex) => {
     const results = await (
         await pool.query(
-            "SELECT posts.id, posts.written_text, posts.tag_1, posts.tag_2, posts.tag_3, posts.is_pinned, posts.is_advertised, posts.is_sensative, posts.is_anonymous, posts.created_at, posts.expires_in, profile.id AS user_id, profile.first_name, profile.last_name, profile.username, profile.profile_pic FROM text_post AS posts LEFT JOIN user_profile AS profile ON posts.user_id = profile.id ORDER BY posts.created_at DESC LIMIT $1 OFFSET $2",
+            "SELECT posts.id, posts.written_text, posts.media_url, posts.tag_1, posts.tag_2, posts.tag_3, posts.repost_id, posts.is_pinned, posts.is_advertised, posts.is_sensative, posts.is_anonymous, posts.created_at, posts.is_story, posts.expires_in, profile.id AS user_id, profile.first_name, profile.last_name, profile.username, profile.profile_pic_url FROM user_post AS posts LEFT JOIN user_profile AS profile ON posts.user_id = profile.id ORDER BY posts.created_at DESC LIMIT $1 OFFSET $2",
             [limit, startIndex]
         )
     ).rows;
@@ -236,7 +236,7 @@ const getPostTags = async (post) => {
 const getPostsById = async (postId) => {
     const post = await (
         await pool.query(
-            "SELECT posts.*, profile.first_name, profile.last_name, profile.username, profile.profile_pic, COUNT(likes.id) AS likes_cnt, COUNT(text_comment.id) AS comments_cnt FROM text_post AS posts LEFT JOIN user_profile AS profile ON posts.user_id = profile.id LEFT JOIN post_like AS likes ON posts.id = likes.post_id LEFT JOIN text_comment ON posts.id = text_comment.post_id WHERE posts.id = $1 GROUP BY posts.id, profile.first_name, profile.last_name, profile.username, profile.profile_pic ORDER BY posts.created_at DESC",
+            "SELECT posts.*, profile.first_name, profile.last_name, profile.username, profile.profile_pic, COUNT(likes.id) AS likes_cnt, COUNT(text_comment.id) AS comments_cnt FROM user_post AS posts LEFT JOIN user_profile AS profile ON posts.user_id = profile.id LEFT JOIN post_like AS likes ON posts.id = likes.post_id LEFT JOIN text_comment ON posts.id = text_comment.post_id WHERE posts.id = $1 GROUP BY posts.id, profile.first_name, profile.last_name, profile.username, profile.profile_pic ORDER BY posts.created_at DESC",
             [postId]
         )
     ).rows[0];
@@ -247,7 +247,7 @@ const getPostsById = async (postId) => {
 const getPostByUserId = async (userId) => {
     const results = await (
         await pool.query(
-            "SELECT posts.id, posts.written_text, posts.tag_1, posts.tag_2, posts.tag_3, posts.is_pinned, posts.is_advertised, posts.is_sensative, posts.is_anonymous, posts.created_at, posts.expires_in, profile.id AS user_id, profile.first_name, profile.last_name, profile.username, profile.profile_pic FROM text_post AS posts LEFT JOIN user_profile AS profile ON posts.user_id = profile.id WHERE posts.user_id = $1 ORDER BY posts.created_at DESC",
+            "SELECT posts.id, posts.written_text, posts.tag_1, posts.tag_2, posts.tag_3, posts.is_pinned, posts.is_advertised, posts.is_sensative, posts.is_anonymous, posts.created_at, posts.expires_in, profile.id AS user_id, profile.first_name, profile.last_name, profile.username, profile.profile_pic FROM user_post AS posts LEFT JOIN user_profile AS profile ON posts.user_id = profile.id WHERE posts.user_id = $1 ORDER BY posts.created_at DESC",
             [userId]
         )
     ).rows;
@@ -256,13 +256,13 @@ const getPostByUserId = async (userId) => {
 };
 
 const deletePostById = async (postId) => {
-    await pool.query("DELETE FROM text_post WHERE id = $1", [postId]);
+    await pool.query("DELETE FROM user_post WHERE id = $1", [postId]);
 };
 
 const searchPostText = async (searchParam) => {
     const results = await (
         await pool.query(
-            "SELECT * FROM text_post WHERE written_text LIKE '%$1%'",
+            "SELECT * FROM user_post WHERE written_text LIKE '%$1%'",
             [searchParam]
         )
     ).rows;

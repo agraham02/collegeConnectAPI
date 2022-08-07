@@ -30,7 +30,7 @@ async function paginateResults(req, res, next) {
         // console.log(results.results.length);
 
         const postLength = await (
-            await pool.query("SELECT COUNT(id) FROM text_post")
+            await pool.query("SELECT COUNT(id) FROM user_post")
         ).rows[0].count;
         console.log(parseInt(postLength));
         if (endIndex < postLength) {
