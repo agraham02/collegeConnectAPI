@@ -164,7 +164,7 @@ const getPostsLikesCnt = async (postId) => {
 const getPostsCommentCnt = async (postId) => {
     const results = await (
         await pool.query(
-            "SELECT COUNT(user_comment.user_id) AS comment_cnt FROM user_comment_comment WHERE post_id = $1",
+            "SELECT COUNT(user_comment.user_id) AS comment_cnt FROM user_comment WHERE post_id = $1",
             [postId]
         )
     ).rows[0];
