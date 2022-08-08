@@ -54,7 +54,7 @@ const getProfileDataById = async (req, res, next) => {
     //       last_name: "Dummy",
     //       major_id: null,
     //       minor_id: null,
-    //       profile_pic: null,
+    //       profile_pic_url: null,
     //       registered_at: "2022-06-24T22:11:59.883Z",
     //       social_medias: null,
     //       username: "TD01",
@@ -101,7 +101,7 @@ const getFollowerCnt = async (req, res, next) => {
     const user = await req.user;
     const results = await queries.users.getFollowerCnt(user.id);
     res.json(results);
-}
+};
 
 const getFollowingCnt = async (req, res, next) => {
     const user = await req.user;
@@ -211,7 +211,7 @@ module.exports = {
     unfollowUser,
     getFollowers,
     getFollowings,
-    getFollowerCnt, 
+    getFollowerCnt,
     getFollowingCnt,
     updateBio,
     updateName,

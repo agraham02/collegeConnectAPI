@@ -227,7 +227,7 @@ const getPostTags = async (post) => {
 const getPostsById = async (postId) => {
     const post = await (
         await pool.query(
-            "SELECT posts.*, profile.first_name, profile.last_name, profile.username, profile.profile_pic, COUNT(likes.id) AS likes_cnt, COUNT(user_comment.id) AS comments_cnt FROM user_post AS posts LEFT JOIN user_profile AS profile ON posts.user_id = profile.id LEFT JOIN post_like AS likes ON posts.id = likes.post_id LEFT JOIN user_comment ON posts.id = user_comment.post_id WHERE posts.id = $1 GROUP BY posts.id, profile.first_name, profile.last_name, profile.username, profile.profile_pic ORDER BY posts.created_at DESC",
+            "SELECT posts.*, profile.first_name, profile.last_name, profile.username, profile.profile_pic_url, COUNT(likes.id) AS likes_cnt, COUNT(user_comment.id) AS comments_cnt FROM user_post AS posts LEFT JOIN user_profile AS profile ON posts.user_id = profile.id LEFT JOIN post_like AS likes ON posts.id = likes.post_id LEFT JOIN user_comment ON posts.id = user_comment.post_id WHERE posts.id = $1 GROUP BY posts.id, profile.first_name, profile.last_name, profile.username, profile.profile_pic_url ORDER BY posts.created_at DESC",
             [postId]
         )
     ).rows[0];
@@ -238,7 +238,7 @@ const getPostsById = async (postId) => {
 const getPostByUserId = async (userId) => {
     const results = await (
         await pool.query(
-            "SELECT posts.id, posts.written_text, posts.tag_1, posts.tag_2, posts.tag_3, posts.is_pinned, posts.is_advertised, posts.is_sensative, posts.is_anonymous, posts.created_at, posts.expires_in, profile.id AS user_id, profile.first_name, profile.last_name, profile.username, profile.profile_pic FROM user_post AS posts LEFT JOIN user_profile AS profile ON posts.user_id = profile.id WHERE posts.user_id = $1 ORDER BY posts.created_at DESC",
+            "SELECT posts.id, posts.written_text, posts.tag_1, posts.tag_2, posts.tag_3, posts.is_pinned, posts.is_advertised, posts.is_sensative, posts.is_anonymous, posts.created_at, posts.expires_in, profile.id AS user_id, profile.first_name, profile.last_name, profile.username, profile.profile_pic_url FROM user_post AS posts LEFT JOIN user_profile AS profile ON posts.user_id = profile.id WHERE posts.user_id = $1 ORDER BY posts.created_at DESC",
             [userId]
         )
     ).rows;
@@ -321,7 +321,7 @@ const deleteCommentById = async (commentId) => {
 const getCommentsByPostId = async (postId, userId) => {
     const results = await (
         await pool.query(
-            "SELECT user_comment.id, user_comment.post_id, user_comment.parent_comment_id, user_comment.written_text, user_comment.is_pinned, user_comment.is_sensative, user_comment.is_anonymous, user_comment.created_at, profile.id AS user_id, profile.first_name, profile.last_name, profile.username, profile.profile_pic FROM user_comment LEFT JOIN user_profile AS profile ON user_comment.user_id = profile.id WHERE user_comment.post_id = $1 AND user_comment.parent_comment_id IS NULL ORDER BY user_comment.created_at DESC",
+            "SELECT user_comment.id, user_comment.post_id, user_comment.parent_comment_id, user_comment.written_text, user_comment.is_pinned, user_comment.is_sensative, user_comment.is_anonymous, user_comment.created_at, profile.id AS user_id, profile.first_name, profile.last_name, profile.username, profile.profile_pic_url FROM user_comment LEFT JOIN user_profile AS profile ON user_comment.user_id = profile.id WHERE user_comment.post_id = $1 AND user_comment.parent_comment_id IS NULL ORDER BY user_comment.created_at DESC",
             [postId]
         )
     ).rows;
@@ -344,7 +344,7 @@ const getCommentsByPostId = async (postId, userId) => {
 const getCommentByCommentId = async (commentId) => {
     const result = await (
         await pool.query(
-            "SELECT user_comment.id, user_comment.post_id, user_comment.parent_comment_id, user_comment.written_text, user_comment.is_pinned, user_comment.is_sensative, user_comment.is_anonymous, user_comment.created_at, profile.id AS user_id, profile.first_name, profile.last_name, profile.username, profile.profile_pic FROM user_comment LEFT JOIN user_profile AS profile ON user_comment.user_id = profile.id WHERE user_comment.id = $1 ORDER BY user_comment.created_at DESC",
+            "SELECT user_comment.id, user_comment.post_id, user_comment.parent_comment_id, user_comment.written_text, user_comment.is_pinned, user_comment.is_sensative, user_comment.is_anonymous, user_comment.created_at, profile.id AS user_id, profile.first_name, profile.last_name, profile.username, profile.profile_pic_url FROM user_comment LEFT JOIN user_profile AS profile ON user_comment.user_id = profile.id WHERE user_comment.id = $1 ORDER BY user_comment.created_at DESC",
             [commentId]
         )
     ).rows[0];
@@ -354,7 +354,7 @@ const getCommentByCommentId = async (commentId) => {
 const getCommentsByParentCommentId = async (commentId, userId) => {
     const results = await (
         await pool.query(
-            "SELECT user_comment.id, user_comment.post_id, user_comment.parent_comment_id, user_comment.written_text, user_comment.is_pinned, user_comment.is_sensative, user_comment.is_anonymous, user_comment.created_at, profile.id AS user_id, profile.first_name, profile.last_name, profile.username, profile.profile_pic FROM user_comment LEFT JOIN user_profile AS profile ON user_comment.user_id = profile.id WHERE user_comment.parent_comment_id = $1 ORDER BY user_comment.created_at ASC",
+            "SELECT user_comment.id, user_comment.post_id, user_comment.parent_comment_id, user_comment.written_text, user_comment.is_pinned, user_comment.is_sensative, user_comment.is_anonymous, user_comment.created_at, profile.id AS user_id, profile.first_name, profile.last_name, profile.username, profile.profile_pic_url FROM user_comment LEFT JOIN user_profile AS profile ON user_comment.user_id = profile.id WHERE user_comment.parent_comment_id = $1 ORDER BY user_comment.created_at ASC",
             [commentId]
         )
     ).rows;

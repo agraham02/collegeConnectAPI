@@ -45,7 +45,7 @@ function paginatedResults(modal) {
         const results = {};
 
         const queryResults = await pool.query(
-            "SELECT posts.id, posts.written_text, posts.tag_1, posts.tag_2, posts.tag_3, posts.is_pinned, posts.is_advertised, posts.is_sensative, posts.is_anonymous, posts.created_at, posts.expires_in, profile.id AS user_id, profile.first_name, profile.last_name, profile.username, profile.profile_pic FROM user_post AS posts LEFT JOIN user_profile AS profile ON posts.user_id = profile.id ORDER BY posts.created_at DESC LIMIT $1 OFFSET $2",
+            "SELECT posts.id, posts.written_text, posts.tag_1, posts.tag_2, posts.tag_3, posts.is_pinned, posts.is_advertised, posts.is_sensative, posts.is_anonymous, posts.created_at, posts.expires_in, profile.id AS user_id, profile.first_name, profile.last_name, profile.username, profile.profile_pic_url FROM user_post AS posts LEFT JOIN user_profile AS profile ON posts.user_id = profile.id ORDER BY posts.created_at DESC LIMIT $1 OFFSET $2",
             [limit, startIndex]
         );
         results.results = queryResults;
