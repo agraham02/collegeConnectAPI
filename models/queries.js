@@ -300,9 +300,11 @@ const insertNewComment = async (
     isAnonymous,
     parentCommentId
 ) => {
+    const id = uuidv4();
     await pool.query(
-        "INSERT INTO user_comment (user_id, post_id, written_text, is_pinned, is_sensative, is_anonymous, parent_comment_id) VALUES ($1, $2, $3, $4, $5, $6, $7)",
+        "INSERT INTO user_comment (id, user_id, post_id, written_text, is_pinned, is_sensative, is_anonymous, parent_comment_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
         [
+            id,
             userId,
             postId,
             text,
