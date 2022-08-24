@@ -335,11 +335,11 @@ const getCommentsByPostId = async (postId, userId) => {
         const likeCnt = await getCommentLikeCnt(commentId);
         // const commentCnt = await getCommentCommentCnt(commentId);
         // const isLiked = await commentIsLiked(commentId, userId);
-        // result.like_cnt = likeCnt;
+        result.like_cnt = likeCnt;
         // result.comment_cnt = commentCnt;
         // result.is_liked = isLiked;
     }
-    // console.log(results);
+    console.log(results);
 
     return results;
 };
