@@ -331,6 +331,7 @@ const getCommentsByPostId = async (postId, userId) => {
     for (const result of results) {
         console.log(result);
         const commentId = result.id;
+        console.log(commentId);
         // const likeCnt = await getCommentLikeCnt(commentId);
         // const commentCnt = await getCommentCommentCnt(commentId);
         // const isLiked = await commentIsLiked(commentId, userId);
