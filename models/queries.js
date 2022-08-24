@@ -328,16 +328,16 @@ const getCommentsByPostId = async (postId, userId) => {
         )
     ).rows;
     console.log(results);
-    // for (const result of results) {
-    //     console.log(result);
-    //     const commentId = result.id;
-    //     const likeCnt = await getCommentLikeCnt(commentId);
-    //     const commentCnt = await getCommentCommentCnt(commentId);
-    //     const isLiked = await commentIsLiked(commentId, userId);
-    //     result.like_cnt = likeCnt;
-    //     result.comment_cnt = commentCnt;
-    //     result.is_liked = isLiked;
-    // }
+    for (const result of results) {
+        console.log(result);
+        const commentId = result.id;
+        // const likeCnt = await getCommentLikeCnt(commentId);
+        // const commentCnt = await getCommentCommentCnt(commentId);
+        // const isLiked = await commentIsLiked(commentId, userId);
+        // result.like_cnt = likeCnt;
+        // result.comment_cnt = commentCnt;
+        // result.is_liked = isLiked;
+    }
     // console.log(results);
 
     return results;
